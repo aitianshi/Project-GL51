@@ -2,9 +2,16 @@ package projet.gl51.store
 
 class MemoryProductStorage implements ProductStorage {
 
-    @Override
-    void save(Product p) {
+    ArrayList<Product> products
 
+    MemoryProductStorage() {
+        products = new ArrayList<Product>()
+    }
+
+    @Override
+    String save(Product p) {
+        products.add(p)
+        p.id
     }
 
     @Override
@@ -24,6 +31,6 @@ class MemoryProductStorage implements ProductStorage {
 
     @Override
     List<Product> all() {
-        []
+        products
     }
 }

@@ -6,7 +6,7 @@ interface ProductStorage {
      * creates an new product in the store
      * @param p the product to store
      */
-    void save(Product p)
+    String save(Product p)
 
     /**
      * updates an existing product in the store

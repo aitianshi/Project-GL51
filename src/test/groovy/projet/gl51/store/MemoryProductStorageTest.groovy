@@ -13,7 +13,7 @@ class MemoryProductStorageTest extends Specification {
 
     def "adding a product returns the product in the list"(){
         setup:
-        store.save(new Product(name: "parapluie"))
+        store.save(new Product(name: "parapluie",price: 12))
 
         when:
         def all = store.all()
@@ -21,5 +21,17 @@ class MemoryProductStorageTest extends Specification {
         then:
         all.size() == 1
         all.first().name == 'parapluie'
+    }
+
+    def "adding a product will generate a new id"(){
+        setup:
+        store.save(new Product(name: "parapluie",price: 12))
+        store.save(new Product(name: "écharpe",price: 12))
+
+        when:
+        def all = store.all()
+
+        then:
+        all.get(0).id != all.get(1).id
     }
 }
