@@ -9,8 +9,8 @@ import io.micronaut.http.HttpStatus
 class StudentController {
 
     @Get("/")
-    HttpStatus index() {
-        return HttpStatus.OK
+    List<Student> index() {
+        [new Student(firstName :"Etienne",lastName:"Filhol"), new Student(firstName:"Alban", lastName:"Pezzoli")]
     }
 }
  
