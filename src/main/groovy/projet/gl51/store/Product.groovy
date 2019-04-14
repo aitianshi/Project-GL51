@@ -7,7 +7,7 @@ class Product {
     double price
     double idealTemperature
 
-    Product(name,description,price,idealTemperature) {
+    Product(name, description, price, idealTemperature) {
         this.name = name
         this.description = description
         this.price = price
@@ -15,7 +15,7 @@ class Product {
         this.id = UUID.randomUUID().toString()
     }
 
-    Product(name,price) {
+    Product(name, price) {
         this.name = name
         this.price = price
         this.id = UUID.randomUUID().toString()
