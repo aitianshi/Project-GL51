@@ -20,4 +20,8 @@ class Product {
         this.price = price
         this.id = UUID.randomUUID().toString()
     }
+
+    String getId() {
+        return id
+    }
 }
