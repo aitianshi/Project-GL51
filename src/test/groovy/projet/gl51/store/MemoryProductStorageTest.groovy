@@ -4,7 +4,7 @@ import spock.lang.Specification
 
 class MemoryProductStorageTest extends Specification {
 
-    MemoryProductStorage store = new MemoryProductStorage()
+    ProductStorage store = new MemoryProductStorage()
 
     def "empty storage return empty list"(){
         expect:
@@ -42,7 +42,7 @@ class MemoryProductStorageTest extends Specification {
         def productID = all.first().getId()
 
         when:
-        all.delete(productID)
+        store.delete(productID)
 
         then:
         all.size() == 0
@@ -56,7 +56,7 @@ class MemoryProductStorageTest extends Specification {
         def productID = all.first().getId()
 
         when:
-        all.first().update(productID, updateProduct)
+        store.update(productID, updateProduct)
 
         then:
         all.first().getName() == 'parapluie 3D'
@@ -76,7 +76,6 @@ class MemoryProductStorageTest extends Specification {
         def product = new Product('parapluie',12)
         def productID = product.getId()
         store.save(product)
-        def productExist
 
         when:
         productExist = store.getByID(productID)
