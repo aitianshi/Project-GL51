@@ -4,7 +4,7 @@ import spock.lang.Specification
 
 class MemoryProductStorageTest extends Specification {
 
-    ProductStorage store = new MemoryProductStorage()
+    MemoryProductStorage store = new MemoryProductStorage()
 
     def "empty storage return empty list"(){
         expect:
