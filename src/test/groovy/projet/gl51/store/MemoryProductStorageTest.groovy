@@ -68,7 +68,7 @@ class MemoryProductStorageTest extends Specification {
         store.getByID('notExist')
 
         then:
-        thrown NotExistingProductException()
+        thrown NotExistingProductException
     }
 
     def "getting a product by its id will return it if it does exist"(){
@@ -78,7 +78,7 @@ class MemoryProductStorageTest extends Specification {
         store.save(product)
 
         when:
-        productExist = store.getByID(productID)
+        def productExist = store.getByID(productID)
 
         then:
         product == productExist

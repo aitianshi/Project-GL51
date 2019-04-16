@@ -26,12 +26,12 @@ class MemoryProductStorage implements ProductStorage {
     @Override
     Product getByID(String id) throws NotExistingProductException {
         for(Product current in products){
-            if (current.id.equals(id)) {
+            if (current.getId() == id) {
                 return current
             }
         }
 
-        throw NotExistingProductException()
+        throw new NotExistingProductException("The product has not been found !")
     }
 
     @Override
