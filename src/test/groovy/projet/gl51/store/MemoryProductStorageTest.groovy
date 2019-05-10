@@ -5,29 +5,31 @@ import spock.lang.Specification
 class MemoryProductStorageTest extends Specification {
 
     ProductStorage store = new MemoryProductStorage()
+    ProductStorage emptyStore = new MemoryProductStorage()
+
+    def setup(){
+        store.save(new Product('parapluie', 12))
+        store.save(new Product('écharpe', 12))
+    }
 
     def "empty storage return empty list"(){
         expect:
-        store.all() == []
+        emptyStore.all() == []
     }
 
     def "adding a product returns the product in the list"(){
         setup:
-        store.save(new Product('parapluie', 12))
+        emptyStore.save(new Product('manteau', 12))
 
         when:
-        def all = store.all()
+        def all = emptyStore.all()
 
         then:
         all.size() == 1
-        all.first().getName() == 'parapluie'
+        all.first().getName() == 'manteau'
     }
 
     def "adding a product will generate a new id"(){
-        setup:
-        store.save(new Product('parapluie', 12))
-        store.save(new Product('écharpe', 12))
-
         when:
         def all = store.all()
 
@@ -37,7 +39,6 @@ class MemoryProductStorageTest extends Specification {
 
     def "deleting a product will remove it from the list"(){
         setup:
-        store.save(new Product('parapluie', 12))
         def all = store.all()
         def productID = all.first().getId()
 
@@ -45,12 +46,11 @@ class MemoryProductStorageTest extends Specification {
         store.delete(productID)
 
         then:
-        all.size() == 0
+        all.size() == 1
     }
 
     def "modifying a product will change it in the list"(){
         setup:
-        store.save(new Product('parapluie', 12))
         def updateProduct = new Product('parapluie 3D', 20)
         def all = store.all()
         def productID = all.first().getId()
@@ -73,14 +73,13 @@ class MemoryProductStorageTest extends Specification {
 
     def "getting a product by its id will return it if it does exist"(){
         setup:
-        def product = new Product('parapluie',12)
-        def productID = product.getId()
-        store.save(product)
+        def productID = store.all().first().getId()
 
         when:
         def productExist = store.getByID(productID)
 
         then:
-        product == productExist
+        productExist.getName() == 'parapluie'
+        productExist.getPrice() == 12
     }
 }

@@ -18,7 +18,7 @@ class MemoryProductStorage implements ProductStorage {
     void update(String id, Product p) {
         Product toUpdate = this.getByID(id)
         int indexOfProduct = products.indexOf(toUpdate)
-
+        delete(id)
         products.add(indexOfProduct,p)
 
     }
