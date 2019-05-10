@@ -16,28 +16,25 @@ class MemoryProductStorage implements ProductStorage {
 
     @Override
     void update(String id, Product p) {
-        Product toUpdate = this.getByID(id)
-        int indexOfProduct = products.indexOf(toUpdate)
-
-        products.add(indexOfProduct,p)
-
+        int indexOfProduct = products.findIndexOf {it.id == id}
+        products.remove(indexOfProduct)
+        products.add(indexOfProduct, p)
     }
 
     @Override
     Product getByID(String id) throws NotExistingProductException {
-        for(Product current in products){
-            if (current.getId() == id) {
-                return current
-            }
-        }
+        Product productFound = products.find { it.id == id }
 
-        throw new NotExistingProductException("The product has not been found !")
+        if (productFound == null) {
+            throw new NotExistingProductException("The product has not been found !")
+        } // else
+
+        return productFound
     }
 
     @Override
     void delete(String id) {
-        Product toRemove = this.getByID(id)
-        products.remove(toRemove)
+        products.removeIf { it.id == id }
     }
 
     @Override

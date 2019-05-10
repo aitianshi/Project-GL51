@@ -13,7 +13,7 @@ class MemoryProductStorageTest extends Specification {
 
     def "adding a product returns the product in the list"(){
         setup:
-        store.save(new Product('parapluie', 12))
+        store.save(new Product(name: 'parapluie', price: 12))
 
         when:
         def all = store.all()
@@ -25,8 +25,8 @@ class MemoryProductStorageTest extends Specification {
 
     def "adding a product will generate a new id"(){
         setup:
-        store.save(new Product('parapluie', 12))
-        store.save(new Product('écharpe', 12))
+        store.save(new Product(name: 'parapluie', price: 12))
+        store.save(new Product(name: 'écharpe', price: 12))
 
         when:
         def all = store.all()
@@ -37,7 +37,7 @@ class MemoryProductStorageTest extends Specification {
 
     def "deleting a product will remove it from the list"(){
         setup:
-        store.save(new Product('parapluie', 12))
+        store.save(new Product(name: 'parapluie', price: 12))
         def all = store.all()
         def productID = all.first().getId()
 
@@ -50,8 +50,8 @@ class MemoryProductStorageTest extends Specification {
 
     def "modifying a product will change it in the list"(){
         setup:
-        store.save(new Product('parapluie', 12))
-        def updateProduct = new Product('parapluie 3D', 20)
+        store.save(new Product(name: 'parapluie', price: 12))
+        def updateProduct = new Product(name: 'parapluie 3D', price: 20)
         def all = store.all()
         def productID = all.first().getId()
 
@@ -73,7 +73,7 @@ class MemoryProductStorageTest extends Specification {
 
     def "getting a product by its id will return it if it does exist"(){
         setup:
-        def product = new Product('parapluie',12)
+        def product = new Product(name: 'parapluie', price: 12)
         def productID = product.getId()
         store.save(product)
 
