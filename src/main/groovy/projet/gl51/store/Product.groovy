@@ -6,8 +6,6 @@ class Product {
     String description
     double price
     double idealTemperature
-<<<<<<< Updated upstream
-=======
 
     Product(name, description, price, idealTemperature) {
         this.name = name
@@ -26,5 +24,4 @@ class Product {
     String getId() {
         return this.id
     }
->>>>>>> Stashed changes
 }
