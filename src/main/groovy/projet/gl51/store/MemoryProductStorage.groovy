@@ -30,8 +30,7 @@ class MemoryProductStorage implements ProductStorage {
 
     @Override
     void delete(String id) {
-        Product toRemove = this.getByID(id)
-        products.remove(toRemove)
+        products.removeIf { it.id == id }
     }
 
     @Override
