@@ -9,6 +9,7 @@ import io.micronaut.http.annotation.Post
 import io.micronaut.http.annotation.Delete
 
 import javax.inject.Inject
+import java.net.http.HttpResponse
 
 @Controller("/store/product")
 class ProductController {
@@ -22,12 +23,12 @@ class ProductController {
     }
 
     @Get("/{id}")
-    Product get(String id) {
+    HttpResponse<Product> get(String id) {
         try {
-            storage.getByID(id)
+            HttpResponse.ok(storage.getByID(id))
         }
         catch(NotExistingProductException e) {
-            HttpStatus.NOT_FOUND
+            HttpResponse.notFound()
         }
     }
 
