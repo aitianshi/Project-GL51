@@ -55,7 +55,7 @@ class DatabaseProductStorageTest extends Specification {
         updatedProduct.getName() == otherProduct.getName()
     }
 
-    void "delete a product in empty list throw an exception"(){
+    void "delete a product should return HttpStatus"(){
         setup:
         String id = client.toBlocking().retrieve(HttpRequest.POST('/store/product', sampleProduct))
 
