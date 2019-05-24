@@ -2,11 +2,7 @@ package projet.gl51.store
 
 class MemoryProductStorage implements ProductStorage {
 
-    ArrayList<Product> products
-
-    MemoryProductStorage() {
-        products = new ArrayList<Product>()
-    }
+    List<Product> products = []
 
     @Override
     String save(Product p) {

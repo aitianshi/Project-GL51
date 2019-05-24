@@ -8,6 +8,8 @@ import io.micronaut.http.annotation.Patch
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.annotation.Delete
 
+import javax.inject.Inject
+
 @Controller("/store/product")
 class ProductController {
 
@@ -24,7 +26,7 @@ class ProductController {
             storage.getByID(id)
         }
         catch(NotExistingProductException e) {
-            null
+            HttpStatus.NOT_FOUND
         }
     }
 
