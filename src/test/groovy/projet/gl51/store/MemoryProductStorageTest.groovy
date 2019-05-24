@@ -16,7 +16,7 @@ class MemoryProductStorageTest extends Specification {
         store.save(new Product('parapluie', 12))
 
         when:
-        def all = store.all()
+        List<Product> all = store.all()
 
         then:
         all.size() == 1
