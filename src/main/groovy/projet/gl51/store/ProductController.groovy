@@ -1,5 +1,6 @@
 package projet.gl51.store
 
+import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
@@ -9,7 +10,6 @@ import io.micronaut.http.annotation.Post
 import io.micronaut.http.annotation.Delete
 
 import javax.inject.Inject
-import java.net.http.HttpResponse
 
 @Controller("/store/product")
 class ProductController {

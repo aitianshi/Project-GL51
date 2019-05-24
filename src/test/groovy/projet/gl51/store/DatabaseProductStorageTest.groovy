@@ -19,8 +19,6 @@ class DatabaseProductStorageTest extends Specification {
     @Shared @AutoCleanup EmbeddedServer embeddedServer = ApplicationContext.run(EmbeddedServer)
     @Shared @AutoCleanup RxHttpClient client = embeddedServer.applicationContext.createBean(RxHttpClient, embeddedServer.getURL())
 
-    Product sampleProduct = new Product("parapluie ", 12)
-
 
     void "index should return empty product list"() {
         given:
@@ -32,20 +30,24 @@ class DatabaseProductStorageTest extends Specification {
 
     void "create & get should return the created product"(){
         when:
-        String id = client.toBlocking().retrieve(HttpRequest.POST('/store/product', sampleProduct))
+        String id = client.toBlocking().retrieve(HttpRequest.POST('/store/product', new Product(name, description, price, idealTemperature)))
         Product productReturned = client.toBlocking().retrieve(HttpRequest.GET('/store/product/' + id), Argument.of(Product).type)
 
         then:
         id != ""
-        productReturned.getId() == sampleProduct.getId()
+        productReturned.getId() == id
+
+        where:
+        name | description | price | idealTemperature
+        "Parapluie" | "Très utile" | 12 | 5
     }
 
     void "updating a product should change its attributes"() {
         setup:
-        String id = client.toBlocking().retrieve(HttpRequest.POST('/store/product', sampleProduct))
+        String id = client.toBlocking().retrieve(HttpRequest.POST('/store/product', new Product(name, description, price, idealTemperature)))
 
         when:
-        Product otherProduct = new Product( "parapluie", 15)
+        Product otherProduct = new Product(name, description, price, idealTemperature)
         HttpStatus status = client.toBlocking().retrieve(HttpRequest.PATCH('/store/product/' + id, otherProduct), Argument.of(HttpStatus).type)
         Product updatedProduct = client.toBlocking().retrieve(HttpRequest.GET('/store/product/' + id), Argument.of(Product).type)
 
@@ -53,11 +55,15 @@ class DatabaseProductStorageTest extends Specification {
         status == OK
         updatedProduct.getPrice() == otherProduct.getPrice()
         updatedProduct.getName() == otherProduct.getName()
+
+        where:
+        name | description | price | idealTemperature | name1 | description1 | price1 | idealTemperature1
+        "Parapluie" | "Très utile" | 12 | 5 | "Parapluie transparent" | "Pour voir qui est devant" | 20 | 5
     }
 
     void "delete a product should return HttpStatus"(){
         setup:
-        String id = client.toBlocking().retrieve(HttpRequest.POST('/store/product', sampleProduct))
+        String id = client.toBlocking().retrieve(HttpRequest.POST('/store/product', new Product(name, description, price, idealTemperature)))
 
         when:
         HttpStatus status = client.toBlocking().retrieve(HttpRequest.DELETE('/store/product/' + id), Argument.of(HttpStatus).type)
@@ -67,5 +73,9 @@ class DatabaseProductStorageTest extends Specification {
         status == OK
         thrown HttpClientResponseException
         productReturned == null
+
+        where:
+        name | description | price | idealTemperature
+        "Parapluie" | "Très utile" | 12 | 5
     }
 }
