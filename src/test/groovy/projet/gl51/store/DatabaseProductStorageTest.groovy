@@ -31,19 +31,16 @@ class DatabaseProductStorageTest extends Specification {
     }
 
     void "create & get should return the created product"(){
-        setup:
-        Product productSample = new Product( "parapluie", 12)
-
         when:
-        String id = client.toBlocking().retrieve(HttpRequest.POST('/store/product', productSample))
+        String id = client.toBlocking().retrieve(HttpRequest.POST('/store/product', sampleProduct))
         Product productReturned = client.toBlocking().retrieve(HttpRequest.GET('/store/product/' + id), Argument.of(Product).type)
 
         then:
         id != ""
-        productReturned == productSample
+        productReturned.getId() == sampleProduct.getId()
     }
 
-    void "update a product should change its attributes"() {
+    void "updating a product should change its attributes"() {
         setup:
         String id = client.toBlocking().retrieve(HttpRequest.POST('/store/product', sampleProduct))
 
@@ -54,23 +51,11 @@ class DatabaseProductStorageTest extends Specification {
 
         then:
         status == OK
-        otherProduct == updatedProduct
+        updatedProduct.getPrice() == otherProduct.getPrice()
+        updatedProduct.getName() == otherProduct.getName()
     }
 
-    void "delete a product should remove it from the list"() {
-        setup:
-        String id = client.toBlocking().retrieve(HttpRequest.POST('/store/product', sampleProduct))
-
-        when:
-        HttpStatus status = client.toBlocking().retrieve(HttpRequest.DELETE('/store/product/' + id), Argument.of(HttpStatus).type)
-        def productList = client.toBlocking().retrieve(HttpRequest.GET('/store/product/'), Argument.of(Product).type)
-
-        then:
-        status == OK
-        productList == []
-    }
-
-    void "delete a product which doesn't exist throw an exception"(){
+    void "delete a product in empty list throw an exception"(){
         setup:
         String id = client.toBlocking().retrieve(HttpRequest.POST('/store/product', sampleProduct))
 

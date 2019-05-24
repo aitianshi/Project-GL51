@@ -16,11 +16,10 @@ class MemoryProductStorage implements ProductStorage {
 
     @Override
     void update(String id, Product p) {
-        Product toUpdate = this.getByID(id)
-        int indexOfProduct = products.indexOf(toUpdate)
-
-        products.add(indexOfProduct,p)
-
+        Integer productIndex = products.findIndexOf { it.id == id }
+        if (productIndex == -1) throw new NotExistingProductException()
+        p.id = id;
+        products.set(productIndex, p)
     }
 
     @Override
