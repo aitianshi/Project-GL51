@@ -1,5 +1,8 @@
 package projet.gl51.store
 
+import javax.inject.Singleton
+
+@Singleton
 class MemoryProductStorage implements ProductStorage {
 
     List<Product> products = []
@@ -20,13 +23,9 @@ class MemoryProductStorage implements ProductStorage {
 
     @Override
     Product getByID(String id) throws NotExistingProductException {
-        for(Product current in products){
-            if (current.getId() == id) {
-                return current
-            }
-        }
-
-        throw new NotExistingProductException("The product has not been found !")
+        Product product = products.find { it.id == id }
+        if (product == null) throw new NotExistingProductException()
+        product
     }
 
     @Override

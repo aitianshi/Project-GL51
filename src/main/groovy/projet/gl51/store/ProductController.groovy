@@ -13,7 +13,8 @@ import javax.inject.Inject
 @Controller("/store/product")
 class ProductController {
 
-    ProductStorage storage = new MemoryProductStorage()
+    @Inject
+    ProductStorage storage
 
     @Get("/")
     List<Product> index() {
@@ -47,7 +48,7 @@ class ProductController {
     }
 
     @Delete("/{id}")
-    String delete(String id) {
+    HttpStatus delete(String id) {
         try {
             storage.delete(id)
             HttpStatus.OK
