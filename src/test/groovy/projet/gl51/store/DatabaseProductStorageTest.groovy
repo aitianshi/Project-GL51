@@ -61,6 +61,18 @@ class DatabaseProductStorageTest extends Specification {
         "Parapluie" | "Très utile" | 12 | 5 | "Parapluie transparent" | "Pour voir qui est devant" | 20 | 5
     }
 
+    void "updating a non existing product should throw an exception"(){
+        setup:
+        String id = UUID.randomUUID().toString()
+
+        when:
+        Product otherProduct = new Product()
+        HttpStatus status = client.toBlocking().retrieve(HttpRequest.PATCH('/store/product/' + id, otherProduct), Argument.of(HttpStatus).type)
+
+        then:
+        thrown HttpClientResponseException
+    }
+
     void "delete a product should return HttpStatus"(){
         setup:
         String id = client.toBlocking().retrieve(HttpRequest.POST('/store/product', new Product(name, description, price, idealTemperature)))
@@ -71,8 +83,8 @@ class DatabaseProductStorageTest extends Specification {
 
         then:
         status == OK
-        thrown HttpClientResponseException
         productReturned == null
+        thrown HttpClientResponseException
 
         where:
         name | description | price | idealTemperature
