@@ -90,4 +90,15 @@ class DatabaseProductStorageTest extends Specification {
         name | description | price | idealTemperature
         "Parapluie" | "Très utile" | 12 | 5
     }
+
+    void "deleting a non existing product should throw an exception"(){
+        setup:
+        String id = UUID.randomUUID().toString()
+
+        when:
+        HttpStatus status = client.toBlocking().retrieve(HttpRequest.DELETE('/store/product/' + id), Argument.of(HttpStatus).type)
+
+        then:
+        thrown HttpClientResponseException
+    }
 }
