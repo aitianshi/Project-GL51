@@ -1,5 +1,6 @@
 package projet.gl51.store
 
+import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
@@ -22,12 +23,12 @@ class ProductController {
     }
 
     @Get("/{id}")
-    Product get(String id) {
+    HttpResponse<Product> get(String id) {
         try {
-            storage.getByID(id)
+            HttpResponse.ok(storage.getByID(id))
         }
         catch(NotExistingProductException e) {
-            HttpStatus.NOT_FOUND
+            HttpResponse.notFound()
         }
     }
 
